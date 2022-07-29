@@ -1,0 +1,8 @@
+# js
+config/config.js
+
+# json
+*-lock.json
+
+# folder
+node_modules/
