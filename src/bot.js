@@ -65,6 +65,14 @@ botInfo()
 getGuilds()
 getChildrenGuilds("15465803430804453911")
 
+let getClientIp = function (req) {
+  return req.headers['x-forwarded-for'] ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress || '';
+};
+
+
 // 主动灌水
 /* client.messageApi.postMessage("9327706", {
     content: 'messageApi接口触发： 诗酒趁年华',
@@ -78,7 +86,7 @@ getChildrenGuilds("15465803430804453911")
     console.log(err);
 }) */
   
-// 注册用户 at 机器人消息事件
+// at 机器人消息事件
 ws.on("PUBLIC_GUILD_MESSAGES", dc => {
     const content = dc.msg.content;
     if (content.includes('hello')) {
@@ -89,3 +97,10 @@ ws.on("PUBLIC_GUILD_MESSAGES", dc => {
         });
     } 
 });
+
+console.log("客户端地址：", getClientIp);
+
+let ip = getClientIp(req).match(/\d+.\d+.\d+.\d+/);
+console.log(ip);
+ip = ip ? ip.join('.') : null;
+console.log(ip);
