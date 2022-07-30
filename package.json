@@ -1,6 +1,10 @@
 {
   "type": "module",
   "dependencies": {
+    "lodash": "^4.17.21",
+    "node-fetch": "^3.2.9",
+    "node-schedule": "^2.1.0",
+    "progress-stream": "^2.0.0",
     "qq-guild-bot": "^2.9.5"
   },
   "config": {
