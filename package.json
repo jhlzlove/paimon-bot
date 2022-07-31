@@ -1,5 +1,14 @@
 {
+  "name": "paimon-bot",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jhlzlove/paimon-bot",
+  "author": "jhlzlove",
+  "description": "Genshin QQ channel Bot",
   "type": "module",
+
+  "engines": {
+    "node": ">= v16"
+  },  
   "dependencies": {
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.9",
@@ -7,6 +16,7 @@
     "progress-stream": "^2.0.0",
     "qq-guild-bot": "^2.9.5"
   },
+  "comment": "git-cz replace git commit",
   "config": {
     "commitizen": {
       "path": "git-cz"

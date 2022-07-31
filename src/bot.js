@@ -1,5 +1,6 @@
 // ESModule | TypeScript
 import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
+import lodash from 'lodash'
 import { config } from '../config/config.js';
 
 // 创建 client
@@ -7,30 +8,47 @@ const client = createOpenAPI(config.bot);
 
 const ws = createWebsocket(config.bot);
 
+// 频道信息
+let guildMap = new Map()
+// 子频道信息
+let channelMap = new Map()
+// TODO 频道成员
 
-// 机器人信息
-async function botInfo() {
-    let { data } = await client.meApi.me();
-    console.log(data);
+async function load() {
+  // 机器人信息
+  let user = await client.meApi.me();
+
+  // 频道信息
+  let guild = await client.meApi.meGuilds();
+  let guildData = guild.data
+
+  // 循环获取频道以及子频道
+  for (let i = 0; i < guildData.length; i++) {
+    // 键：guildId    值：guildName
+    guildMap.set(guildData[i].id, guildData[i].name)
+
+    /* 子频道 */
+    let channels = await client.channelApi.channels(guildData[i].id)
+    let channelData = channels.data
+    for (let j = 0; j < channelData.length; j++) {
+      // 键：channelId    值：channelName
+      channelMap.set(channelData[j].id, channelData[j].name)
+    }
+  }
+
+  console.log(`================ ${user.data.username} 上线成功！！！===============`);
+  console.log(`=================== 正在加载信息，请稍后...... ======================`);
+  console.log(`======== 加载了 ${guildMap.size} 个频道，${channelMap.size} 个子频道 =========`);
+  console.log(`============================= 加载完毕！ ============================`);
 }
 
-// 获取频道列表
-async function getGuilds() {
-    let {data} = await client.meApi.meGuilds();
-    console.log(data);
-}
-
-// 获取子频道列表
-async function getChildrenGuilds(guildId) {
-    let {data} = await client.channelApi.channels(guildId);
-    console.log(data);
-}
+load()
 
 // at 机器人消息事件
 ws.on("PUBLIC_GUILD_MESSAGES", dc => {
     const content = dc.msg.content;
     if (content.includes('hello')) {
-        client.messageApi.postMessage(dc.msg.channel_id, { content: '你好' }).then((res) => {
+        client.messageApi.postMessage(dc.msg.channel_id, { content: '你好，我叫派蒙' }).then((res) => {
             console.log(res.data);
         }).catch((err) => {
             console.log(err);
@@ -38,9 +56,10 @@ ws.on("PUBLIC_GUILD_MESSAGES", dc => {
     } 
 });
 
-ws.on('READY', data => {
-  console.log('[READY] 事件接收 :', data);
-});
+// 上线消息
+// ws.on('READY', data => {
+//   console.log('[READY] 事件接收 :', data);
+// });
 ws.on('ERROR', data => {
   console.log('[ERROR] 事件接收 :', data);
 });
@@ -49,6 +68,9 @@ ws.on('GUILDS', data => {
 });
 ws.on('GUILD_MEMBERS', data => {
   console.log('[GUILD_MEMBERS] 事件接收 :', data);
+  // if (data.eventType === 'GUILD_MEMBER_ADD') {
+  //   client.messageApi.postMessage(data.msg.guildId)
+  // }
 });
 ws.on('GUILD_MESSAGES', data => {
   console.log('[GUILD_MESSAGES] 事件接收 :', data);
