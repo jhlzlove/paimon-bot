@@ -16,6 +16,7 @@ let channelMap = new Map()
 let memberMap = new Map()
 // 频道机器人
 let botCount = 0
+let memberCount = 0
 
 async function load() {
   // 机器人信息
@@ -28,7 +29,7 @@ async function load() {
   let guild = await client.meApi.meGuilds();
   let guildData = guild.data
 
-  // 循环获取频道以及子频道
+  // 获取频道以及子频道
   for (let i = 0; i < guildData.length; i++) {
     // 键：guildId    值：guildName
     guildMap.set(guildData[i].id, guildData[i].name)
@@ -43,15 +44,16 @@ async function load() {
     }
 
     // 频道成员列表 第二个参数频道没有那么多人不要了
-    let members = await client.guildApi.guildMembers(guildData[i].id);
+    let members = await client.guildApi.guildMembers(guildData[i].id, {limit: 1000});
     let memberData = members.data
-    console.log(memberData);
+    // console.log(memberData);
     for (let k = 0; k < memberData.length; k++) {
       if (memberData[k].user.bot) {
         botCount++
       } else {
         // 键：user.id   值：member
-        memberMap.set(memberData[k].user.id, memberData[k])
+        // memberMap.set(memberData[k].user.id, memberData[k])
+        memberCount++
       }
       
     }
@@ -60,8 +62,7 @@ async function load() {
 
   
   console.log(`======== 加载了 ${guildMap.size} 个频道，${channelMap.size} 个子频道 =========`);
-  console.log(`======== 加载了 ${memberMap.size} 个成员，${botCount} 个机器人 =========`);
-  console.log(memberMap);
+  console.log(`======== 加载了 ${memberCount} 个成员，${botCount} 个机器人 =========`);
 
 
   console.log(`============================= 加载完毕！ ============================`);
@@ -69,18 +70,81 @@ async function load() {
 
 load()
 
-// at 机器人消息事件
+/**
+ * PUBLIC_GUILD_MESSAGES (1 << 30) 公域的消息事件
+ * AT_MESSAGE_CREATE      当收到@机器人的消息时
+ * PUBLIC_MESSAGE_DELETE  当频道的消息被删除时
+ */
 ws.on("PUBLIC_GUILD_MESSAGES", dc => {
-    const content = dc.msg.content;
+  const content = dc.msg.content;
+
+  // @ 机器人的消息
+  if (dc.eventType === 'AT_MESSAGE_CREATE') {
     if (content.includes('hello')) {
         client.messageApi.postMessage(dc.msg.channel_id, { content: '你好，我叫派蒙' }).then((res) => {
             console.log(res.data);
         }).catch((err) => {
             console.log(err);
         });
-    } 
+    }
+  }
 });
 
+
+// 私域消息事件
+ws.on('GUILD_MESSAGES', data => {
+  let msg = data.msg
+  // 撤掉信息
+  if (msg.content.includes("lsp")) {
+    /**
+     * @params1 channelID 子频道id
+     * @params2 messageID 消息id
+     * @params3 hideTip 是否隐藏撤回灰度条：true ？ 隐藏 : 显示，默认显示(false)
+     * @description: 违规消息撤掉之后不用触发后面的回复
+    */
+    client.messageApi.deleteMessage(msg.channel_id, msg.id, false).then((res) => {
+      console.log(`<${msg.author.username}> 的违规消息：“${msg.content}” 已被撤回`);
+    }).catch((err) => {
+      console.log(err);
+    })
+    return
+  }
+  // 创建消息
+  if (data.eventType === 'MESSAGE_CREATE') {
+    client.messageApi.postMessage(data.msg.channel_id, {content: "还不滚去学习"}).then((res) => {
+      console.log(res.data);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  // 撤回消息
+  // if (data.eventType === 'MESSAGE_DELETE') {
+    
+  // }
+  
+  console.log('私域机器人全部消息 事件接收 :', data);
+});
+
+ws.on('GUILD_MESSAGE_REACTIONS', data => {
+  console.log('消息表情事件 事件接收 :', data);
+});
+
+ws.on('DIRECT_MESSAGE', data => {
+  console.log('私信机器人 事件接收 :', data);
+});
+
+ws.on('INTERACTION',data => {
+  console.log('互动 事件接收 :', data);
+});
+ws.on('MESSAGE_AUDIT', data => {
+  console.log('消息审核 事件接收 :', data);
+});
+ws.on('FORUMS_EVENT', data => {
+  console.log('[私域论坛事件] 事件接收 :', data);
+});
+ws.on('AUDIO_ACTION', data => {
+  console.log('[音频事件] 事件接收 :', data);
+});
 // 上线消息
 // ws.on('READY', data => {
 //   console.log('[READY] 事件接收 :', data);
@@ -89,40 +153,11 @@ ws.on('ERROR', data => {
   console.log('[ERROR] 事件接收 :', data);
 });
 ws.on('GUILDS', data => {
-  console.log('[GUILDS] 事件接收 :', data);
+  console.log('[频道/子频道] 事件接收 :', data);
 });
 ws.on('GUILD_MEMBERS', data => {
-  console.log('[GUILD_MEMBERS] 事件接收 :', data);
+  console.log('[频道成员] 事件接收 :', data);
   // if (data.eventType === 'GUILD_MEMBER_ADD') {
   //   client.messageApi.postMessage(data.msg.guildId)
   // }
-});
-ws.on('GUILD_MESSAGES', data => {
-  client.messageApi.postMessage(data.msg.channel_id, {content: "还不滚去学习"}).then((res) => {
-    console.log(res.data);
-  }).catch((err) => {
-    console.log(err);
-  })
-  console.log('[GUILD_MESSAGES] 事件接收 :', data);
-});
-ws.on('GUILD_MESSAGE_REACTIONS', data => {
-  console.log('[GUILD_MESSAGE_REACTIONS] 事件接收 :', data);
-});
-ws.on('DIRECT_MESSAGE', data => {
-  console.log('[DIRECT_MESSAGE] 事件接收 :', data);
-});
-ws.on('INTERACTION',data => {
-  console.log('[INTERACTION] 事件接收 :', data);
-});
-ws.on('MESSAGE_AUDIT', data => {
-  console.log('[MESSAGE_AUDIT] 事件接收 :', data);
-});
-ws.on('FORUMS_EVENT', data => {
-  console.log('[FORUMS_EVENT] 事件接收 :', data);
-});
-ws.on('AUDIO_ACTION', data => {
-  console.log('[AUDIO_ACTION] 事件接收 :', data);
-});
-ws.on('PUBLIC_GUILD_MESSAGES', data => {
-  console.log('[PUBLIC_GUILD_MESSAGES] 事件接收 :', data);
 });
