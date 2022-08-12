@@ -21,5 +21,20 @@ import fetch from "node-fetch";
 // 调用
 // scheduleCronstyle();
 
+let imageUrl
+function task() {
+    schedule.scheduleJob("0 05 19 * * ?", () => {
+      fetch("http://api.2xb.cn/zaob").then((res) => {
+        let json = res.json().then(res => {console.log(res.imageUrl);})
+        console.log(json.imageUrl);
+      }).catch((err) => {
+        console.log(err);
+      })
+    })
+    return imageUrl
+  }
+
+  console.log(task());
+
 
 

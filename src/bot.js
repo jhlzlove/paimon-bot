@@ -2,6 +2,8 @@
 import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
 import lodash from 'lodash'
 import { config } from '../config/config.js';
+import  schedule  from 'node-schedule';
+import fetch from 'node-fetch';
 
 // 创建 client
 const client = createOpenAPI(config.bot);
@@ -43,7 +45,7 @@ async function load() {
       channelMap.set(channelData[j].id, channelData[j].name)
     }
 
-    // 频道成员列表 第二个参数频道没有那么多人不要了
+    // 频道成员列表
     let members = await client.guildApi.guildMembers(guildData[i].id, {limit: 1000});
     let memberData = members.data
     // console.log(memberData);
@@ -81,7 +83,7 @@ ws.on("PUBLIC_GUILD_MESSAGES", dc => {
   // @ 机器人的消息
   if (dc.eventType === 'AT_MESSAGE_CREATE') {
     if (content.includes('hello')) {
-        client.messageApi.postMessage(dc.msg.channel_id, { content: '你好，我叫派蒙' }).then((res) => {
+        client.messageApi.postMessage(dc.msg.channel_id, { content: '你好，我是正在开发中的机器人' }).then((res) => {
             console.log(res.data);
         }).catch((err) => {
             console.log(err);
@@ -90,9 +92,12 @@ ws.on("PUBLIC_GUILD_MESSAGES", dc => {
   }
 });
 
-
+let subChannelId
 // 私域消息事件
 ws.on('GUILD_MESSAGES', data => {
+
+  subChannelId = data.msg.channel_id
+
   let msg = data.msg
   // 撤掉信息
   if (msg.content.includes("lsp")) {
@@ -102,27 +107,47 @@ ws.on('GUILD_MESSAGES', data => {
      * @params3 hideTip 是否隐藏撤回灰度条：true ？ 隐藏 : 显示，默认显示(false)
      * @description: 违规消息撤掉之后不用触发后面的回复
     */
-    client.messageApi.deleteMessage(msg.channel_id, msg.id, false).then((res) => {
-      console.log(`<${msg.author.username}> 的违规消息：“${msg.content}” 已被撤回`);
-    }).catch((err) => {
-      console.log(err);
-    })
+    client.messageApi.deleteMessage(msg.channel_id, msg.id, false)
+      .then((res) => {
+        console.log(`<${msg.author.username}> 的违规消息：“${msg.content}” 已被撤回`);
+      }).catch((err) => {
+        console.log(err);
+      })
     return
   }
-  // 创建消息
-  if (data.eventType === 'MESSAGE_CREATE') {
-    client.messageApi.postMessage(data.msg.channel_id, {content: "还不滚去学习"}).then((res) => {
+
+  schedule.scheduleJob("0 02 19 * * ?", () => {
+    // 定时任务发送
+    if (subChannelId) {
+      // 获取信息
+      fetch("http://api.2xb.cn/zaob").then((res) => {
+        res.json().then(res => {
+          imageUrl = res.imageUrl
+        })
+        }).catch((err) => {
+          console.log(err);
+        })
+        // 发送
+        client.messageApi.postMessage(subChannelId, {content: content})
+        .then(res => {
+        console.log(res);
+        }).catch(err => {console.log(err);})
+    }
+  })
+  
+  
+  
+  console.log('私域机器人全部消息 事件接收 :', data);
+   // 监听到接收的消息
+ /*  if (data.eventType === 'MESSAGE_CREATE') {
+    
+    client.messageApi.postMessage(msg.channel_id, {content: "还不滚去学习"})
+    .then((res) => {
       console.log(res.data);
     }).catch((err) => {
       console.log(err);
-    })
-  }
-  // 撤回消息
-  // if (data.eventType === 'MESSAGE_DELETE') {
-    
-  // }
-  
-  console.log('私域机器人全部消息 事件接收 :', data);
+    }) 
+  }*/
 });
 
 ws.on('GUILD_MESSAGE_REACTIONS', data => {
@@ -155,6 +180,8 @@ ws.on('ERROR', data => {
 ws.on('GUILDS', data => {
   console.log('[频道/子频道] 事件接收 :', data);
 });
+
+
 ws.on('GUILD_MEMBERS', data => {
   console.log('[频道成员] 事件接收 :', data);
   // if (data.eventType === 'GUILD_MEMBER_ADD') {

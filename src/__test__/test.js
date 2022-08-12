@@ -7,11 +7,14 @@ let arr = [
     '风中捉刀','荻花题叶','玲珑雪霏',"无情葬月"
 ]
 console.log(arr);
-var packJson = {"name":"Liza", "password":"123"};
 
-for(var k in packJson ){//遍历packJson 对象的每个key/value对,k为key
-    console.log(k + " " + packJson[k]);
-} 
+const user = {
+    first: "c",
+    second: "lf",
+    role: "admin"
+}
+
+console.log(user.first);
 
 let map = new Map()
 map.set('旺财', '风中捉刀')
