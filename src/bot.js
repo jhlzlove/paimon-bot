@@ -1,14 +1,11 @@
 // ESModule | TypeScript
-import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
-import lodash from 'lodash'
-import { config } from '../config/config.js';
-import  schedule  from 'node-schedule';
 import fetch from 'node-fetch';
+import { BotClient } from './client.js';
 
 // 创建 client
-const client = createOpenAPI(config.bot);
+// const client = createOpenAPI(config.bot);
 
-const ws = createWebsocket(config.bot);
+const { client, ws } = BotClient
 
 // 频道信息
 let guildMap = new Map()
@@ -46,7 +43,7 @@ async function load() {
     }
 
     // 频道成员列表
-    let members = await client.guildApi.guildMembers(guildData[i].id, {limit: 1000});
+    let members = await client.guildApi.guildMembers(guildData[i].id, { limit: 1000 });
     let memberData = members.data
     // console.log(memberData);
     for (let k = 0; k < memberData.length; k++) {
@@ -57,12 +54,12 @@ async function load() {
         // memberMap.set(memberData[k].user.id, memberData[k])
         memberCount++
       }
-      
+
     }
 
   }
 
-  
+
   console.log(`======== 加载了 ${guildMap.size} 个频道，${channelMap.size} 个子频道 =========`);
   console.log(`======== 加载了 ${memberCount} 个成员，${botCount} 个机器人 =========`);
 
@@ -83,11 +80,11 @@ ws.on("PUBLIC_GUILD_MESSAGES", dc => {
   // @ 机器人的消息
   if (dc.eventType === 'AT_MESSAGE_CREATE') {
     if (content.includes('hello')) {
-        client.messageApi.postMessage(dc.msg.channel_id, { content: '你好，我是正在开发中的机器人' }).then((res) => {
-            console.log(res.data);
-        }).catch((err) => {
-            console.log(err);
-        });
+      client.messageApi.postMessage(dc.msg.channel_id, { content: '你好，我是正在开发中的机器人' }).then((res) => {
+        console.log(res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
     }
   }
 });
@@ -116,38 +113,36 @@ ws.on('GUILD_MESSAGES', data => {
     return
   }
 
-  schedule.scheduleJob("0 02 19 * * ?", () => {
+  let imageUrl = schedule.scheduleJob("0 02 19 * * ?", () => {
     // 定时任务发送
     if (subChannelId) {
       // 获取信息
       fetch("http://api.2xb.cn/zaob").then((res) => {
         res.json().then(res => {
-          imageUrl = res.imageUrl
+          return res.imageUrl
         })
-        }).catch((err) => {
-          console.log(err);
-        })
-        // 发送
-        client.messageApi.postMessage(subChannelId, {content: content})
+      }).catch((err) => {
+        console.log(err);
+      })
+      // 发送
+      client.messageApi.postMessage(subChannelId, { content: content })
         .then(res => {
-        console.log(res);
-        }).catch(err => {console.log(err);})
+          console.log(res);
+        }).catch(err => { console.log(err); })
     }
   })
-  
-  
-  
+
   console.log('私域机器人全部消息 事件接收 :', data);
-   // 监听到接收的消息
- /*  if (data.eventType === 'MESSAGE_CREATE') {
-    
-    client.messageApi.postMessage(msg.channel_id, {content: "还不滚去学习"})
-    .then((res) => {
-      console.log(res.data);
-    }).catch((err) => {
-      console.log(err);
-    }) 
-  }*/
+  // 监听到接收的消息
+  /*  if (data.eventType === 'MESSAGE_CREATE') {
+     
+     client.messageApi.postMessage(msg.channel_id, {content: "还不滚去学习"})
+     .then((res) => {
+       console.log(res.data);
+     }).catch((err) => {
+       console.log(err);
+     }) 
+   }*/
 });
 
 ws.on('GUILD_MESSAGE_REACTIONS', data => {
@@ -158,7 +153,7 @@ ws.on('DIRECT_MESSAGE', data => {
   console.log('私信机器人 事件接收 :', data);
 });
 
-ws.on('INTERACTION',data => {
+ws.on('INTERACTION', data => {
   console.log('互动 事件接收 :', data);
 });
 ws.on('MESSAGE_AUDIT', data => {
@@ -184,7 +179,19 @@ ws.on('GUILDS', data => {
 
 ws.on('GUILD_MEMBERS', data => {
   console.log('[频道成员] 事件接收 :', data);
-  // if (data.eventType === 'GUILD_MEMBER_ADD') {
-  //   client.messageApi.postMessage(data.msg.guildId)
-  // }
+  const user = data.d.user
+  if (user.bot) {
+    return
+  }
+  // 消息模板
+  let welcomeTemplete = `欢迎 ${user.username} 旅行者加入提瓦特，${user.avatar}`
+  // 新成员加入
+  if (data.eventType === 'GUILD_MEMBER_ADD') {
+    client.messageApi.postMessage(data.msg.channel_id, { content: welcomeTemplete })
+      .then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      })
+  }
 });

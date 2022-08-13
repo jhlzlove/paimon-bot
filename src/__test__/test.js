@@ -1,3 +1,5 @@
+import { getNews } from "../task/schedule.js";
+
 /* 
 值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、空（Null）、未定义（Undefined）、Symbol。
 
@@ -13,7 +15,6 @@ const user = {
     second: "lf",
     role: "admin"
 }
-
 console.log(user.first);
 
 let map = new Map()
@@ -28,8 +29,14 @@ map.forEach((v, k, m) => {
     console.log(`${k} : ${v}`);
 })
 
-console.log(map);
+console.log("clear() 之前map：", map);
 map.clear();
+console.log("clear() 之后map：", map);
 
-console.log(map);
+// 嵌入语法
+let username = "jhlz"
+let avatar = "hha"
+let welcomeTemplete = `欢迎 ${username} 旅行者加入提瓦特，${avatar}`
+console.log(welcomeTemplete);
 
+getNews()
