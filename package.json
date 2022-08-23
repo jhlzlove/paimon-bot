@@ -10,7 +10,7 @@
   },
   "engines": {
     "node": ">= v16"
-  },  
+  },
   "dependencies": {
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.9",
