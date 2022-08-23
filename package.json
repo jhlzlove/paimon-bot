@@ -17,5 +17,10 @@
     "node-schedule": "^2.1.0",
     "progress-stream": "^2.0.0",
     "qq-guild-bot": "^2.9.5"
+  },
+  "config": {
+      "commitizen": {
+          "czConfig": "./cz.cjs"
+      }
   }
 }
