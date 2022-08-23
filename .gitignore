@@ -4,6 +4,9 @@ config/config.js
 # json
 *-lock.json
 
+# yaml
+*-lock.yaml
+
 # folder
 node_modules/
 docs/
