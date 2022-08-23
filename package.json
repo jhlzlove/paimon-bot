@@ -5,7 +5,9 @@
   "author": "jhlzlove",
   "description": "Genshin QQ channel Bot",
   "type": "module",
-
+  "scripts": {
+    "cz": "czg"
+  },
   "engines": {
     "node": ">= v16"
   },  
@@ -16,10 +18,9 @@
     "progress-stream": "^2.0.0",
     "qq-guild-bot": "^2.9.5"
   },
-  "comment": "git-cz replace git commit",
   "config": {
     "commitizen": {
-      "path": "git-cz"
+      "path": "cz-git"
     }
   }
 }

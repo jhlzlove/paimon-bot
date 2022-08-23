@@ -113,11 +113,11 @@ ws.on('GUILD_MESSAGES', data => {
     return
   }
 
-  let imageUrl = schedule.scheduleJob("0 02 19 * * ?", () => {
+  schedule.scheduleJob("0 02 19 * * ?", () => {
     // 定时任务发送
     if (subChannelId) {
       // 获取信息
-      fetch("http://api.2xb.cn/zaob").then((res) => {
+      let imageUrl = fetch("http://api.2xb.cn/zaob").then((res) => {
         res.json().then(res => {
           return res.imageUrl
         })
