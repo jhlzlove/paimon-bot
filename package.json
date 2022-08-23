@@ -6,6 +6,10 @@
   "description": "Genshin QQ channel Bot",
   "type": "module",
 
+  "scripts": {
+    "run": "node ./src/bot.js"
+  },
+
   "engines": {
     "node": ">= v16"
   },  
@@ -15,11 +19,5 @@
     "node-schedule": "^2.1.0",
     "progress-stream": "^2.0.0",
     "qq-guild-bot": "^2.9.5"
-  },
-  "comment": "git-cz replace git commit",
-  "config": {
-    "commitizen": {
-      "path": "git-cz"
-    }
   }
 }
