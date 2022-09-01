@@ -6,4 +6,4 @@ const client = createOpenAPI(config.bot);
 
 const ws = createWebsocket(config.bot);
 
-export default {client, ws}
+export {client, ws}

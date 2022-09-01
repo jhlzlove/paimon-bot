@@ -1,11 +1,11 @@
 // ESModule | TypeScript
 import fetch from 'node-fetch';
-import { BotClient } from './client.js';
+import {client,ws} from './client.js';
+import schedule from 'node-schedule';
 
 // 创建 client
 // const client = createOpenAPI(config.bot);
 
-const { client, ws } = BotClient
 
 // 频道信息
 let guildMap = new Map()
@@ -113,24 +113,6 @@ ws.on('GUILD_MESSAGES', data => {
     return
   }
 
-  schedule.scheduleJob("0 02 19 * * ?", () => {
-    // 定时任务发送
-    if (subChannelId) {
-      // 获取信息
-      let imageUrl = fetch("http://api.2xb.cn/zaob").then((res) => {
-        res.json().then(res => {
-          return res.imageUrl
-        })
-      }).catch((err) => {
-        console.log(err);
-      })
-      // 发送
-      client.messageApi.postMessage(subChannelId, { content: content })
-        .then(res => {
-          console.log(res);
-        }).catch(err => { console.log(err); })
-    }
-  })
 
   console.log('私域机器人全部消息 事件接收 :', data);
   // 监听到接收的消息
