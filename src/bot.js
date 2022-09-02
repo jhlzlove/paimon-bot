@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { client, ws } from './client.js';
 import schedule from 'node-schedule';
 import path from "path"
-import fs, { createWriteStream }  from "fs"
+import fs, { createWriteStream } from "fs"
 import { pipeline } from "stream"
 import { promisify } from "util"
 
@@ -138,7 +138,7 @@ ws.on('GUILD_MESSAGES', data => {
     //         streamPipeline(res.body, createWriteStream(localPath))
     //       })
 
-          
+
 
     //     }).catch((err) => {
     //       console.log(err);
@@ -146,14 +146,14 @@ ws.on('GUILD_MESSAGES', data => {
     //   }).catch((err) => {
     //     console.log(err);
     //   })
-// 发送图片
-client.messageApi.postMessage(subChannelId, { image: "./images/1662108840115.png" })
-.then((res) => {
-  console.log(res.data);
-})
-.catch((err) => {
-  console.log(err);
-})
+    // 发送图片
+    client.messageApi.postMessage(subChannelId, { content: "hahaha" })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 
 
   })

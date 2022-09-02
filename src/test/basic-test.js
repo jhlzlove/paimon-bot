@@ -1,21 +1,33 @@
 /** 基本测试类 */
+import fetch from "node-fetch";
+import path from "path";
+import fs from "fs"
 
+let res = await fetch("https://baidu.com")
+
+console.log(res.text());
+
+console.log(path.sep);
+
+console.log(process.cwd());
 /* 
 值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、空（Null）、未定义（Undefined）、Symbol。
 
 引用数据类型（对象类型）：对象(Object)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）。
 */
-let arr = [
-    '风中捉刀', '荻花题叶', '玲珑雪霏', "无情葬月"
-]
-console.log(arr);
+function testBasic() {
+    let arr = [
+        '风中捉刀', '荻花题叶', '玲珑雪霏', "无情葬月"
+    ];
+    console.log(arr);
 
-const user = {
-    first: "c",
-    second: "lf",
-    role: "admin"
+    const user = {
+        first: "c",
+        second: "lf",
+        role: "admin"
+    };
+    console.log(user.first);
 }
-console.log(user.first);
 
 /** 嵌入语法 */
 function testTemplateSyntax() {

@@ -1,61 +1,38 @@
-import schedule from 'node-schedule';
-import fetch from 'node-fetch';
-import fs from 'fs'
-import  progressStream from 'progress-stream'
+import fetch from "node-fetch"
+import fs, { createWriteStream } from "fs"
+import { fileURLToPath } from "url"
+import path from "path"
+import { pipeline } from "stream"
+import { promisify } from "util"
+import schedule from "node-schedule";
 
+
+let __dirname = fileURLToPath(import.meta.url)
+__dirname = path.dirname(__dirname)
+
+// 新闻接口 http://api.2xb.cn/zaob 
 let newsUrl = "http://118.31.18.68:8080/news/api/news-file/get";
 
-export function getNews() {
-    schedule.scheduleJob("0 08 19 * * ?", () => {
-        // 获取信息
-        let res = fetch(newsUrl)
-            .then((res) => {
-                res.json().then((r) => {
-                    console.log(r.result.data);
-                    
-                    // 下载图片
-                    downloadImage(r);
+const streamPipeline = promisify(pipeline);
 
+async function task01() {
+    schedule.scheduleJob("0 50 13 * * ?", () => {
+        /** 获取新闻图片地址 */
+        let res = await fetch(newsUrl);
+        let json = await res.json()
+        const imageUrl = json.result.data
+        const imgRes = await fetch(imageUrl);
 
+        let savePath = "../resources/images";
+        if (!fs.existsSync(path.dirname(savePath))) {
+            fs.mkdirSync(parentPath, { recursive: true });
+        }
 
-                })
-            }).catch((err) => {
-                console.log(err);
-            })
-
+        /** 下载保存 */
+        streamPipeline(imgRes.body,
+            createWriteStream(savePath + path.sep + new Date().getTime() + ".png"))
+        return imageUrl
     })
-    return "获取新闻 data 失败"
 }
-// 调用
-getNews()
 
-function downloadImage(r) {
-    const fileStream1 = fs.createWriteStream(process.cwd() + "/" + new Date().getTime() + ".png").on('error', function (e) {
-        console.error('错误', e);
-    }).on('ready', function () {
-        console.log("开始下载:");
-    }).on('finish', function () {
-        console.log('文件下载完成:');
-    });
-    fetch(r.result.data, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/octet-stream'
-        },
-    }).then(res => {
-        /* 获取请求头中的文件大小数据 */
-        let length = res.headers.get("content-length");
-        /* 创建进度 */
-        let str = progressStream({
-            length, time: 100
-        });
-        str.on('progress', function (progressData) {
-            let percentage = Math.round(progressData.percentage) + '%';
-            console.log(percentage);
-        });
-        res.body.pipe(str).pipe(fileStream1);
-    }).catch(e => {
-        //自定义异常处理
-        console.log(e);
-    });
-}
+export {task01}
