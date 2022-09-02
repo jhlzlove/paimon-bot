@@ -1,7 +1,11 @@
 // ESModule | TypeScript
 import fetch from 'node-fetch';
-import {client,ws} from './client.js';
+import { client, ws } from './client.js';
 import schedule from 'node-schedule';
+import path from "path"
+import fs, { createWriteStream }  from "fs"
+import { pipeline } from "stream"
+import { promisify } from "util"
 
 // 创建 client
 // const client = createOpenAPI(config.bot);
@@ -113,6 +117,46 @@ ws.on('GUILD_MESSAGES', data => {
     return
   }
 
+  // 定时任务
+  schedule.scheduleJob("0 59 16 * * ?", () => {
+    /** 获取新闻图片地址 */
+    // fetch("http://118.31.18.68:8080/news/api/news-file/get")
+    //   .then((res) => {
+    //     res.json().then((res) => {
+    //       let imageUrl = res.result.data
+    //       console.log(imageUrl);
+
+    //       let savePath = process.cwd() + path.sep + "images";
+    //       if (!fs.existsSync(path.dirname(savePath))) {
+    //         fs.mkdirSync(parentPath, { recursive: true });
+    //       }
+
+    //       const streamPipeline = promisify(pipeline);
+    //       let localPath = savePath + path.sep + new Date().getTime() + ".png"
+    //       /** 下载保存 */
+    //       fetch(imageUrl).then((res) => {
+    //         streamPipeline(res.body, createWriteStream(localPath))
+    //       })
+
+          
+
+    //     }).catch((err) => {
+    //       console.log(err);
+    //     })
+    //   }).catch((err) => {
+    //     console.log(err);
+    //   })
+// 发送图片
+client.messageApi.postMessage(subChannelId, { image: "./images/1662108840115.png" })
+.then((res) => {
+  console.log(res.data);
+})
+.catch((err) => {
+  console.log(err);
+})
+
+
+  })
 
   console.log('私域机器人全部消息 事件接收 :', data);
   // 监听到接收的消息
