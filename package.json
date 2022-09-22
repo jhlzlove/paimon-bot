@@ -6,12 +6,13 @@
   "description": "Genshin QQ channel Bot",
   "type": "module",
   "scripts": {
-    "run": "node ./src/bot.js"
+    "run": "node ./bot.js"
   },
   "engines": {
     "node": ">= v16"
   },
   "dependencies": {
+    "dayjs": "^1.11.5",
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.9",
     "node-schedule": "^2.1.0",
@@ -19,8 +20,8 @@
     "qq-guild-bot": "^2.9.5"
   },
   "config": {
-      "commitizen": {
-          "czConfig": "./cz.cjs"
-      }
+    "commitizen": {
+      "czConfig": "./cz.cjs"
+    }
   }
 }

@@ -10,8 +10,8 @@ import fetch from "node-fetch";
 //             console.log(res.json());
 //             imageUrl = res.imageUrl
 //             console.log(imageUrl.lastIndexOf("_"));
-            
-            
+
+
 //         }).catch((err) => {
 //             console.log(err);
 //         })
@@ -21,20 +21,14 @@ import fetch from "node-fetch";
 // 调用
 // scheduleCronstyle();
 
-let imageUrl
-function task() {
-    schedule.scheduleJob("0 05 19 * * ?", () => {
-      fetch("http://api.2xb.cn/zaob").then((res) => {
-        let json = res.json().then(res => {console.log(res.imageUrl);})
-        console.log(json.imageUrl);
-      }).catch((err) => {
-        console.log(err);
-      })
-    })
-    return imageUrl
-  }
+async function task() {
+  schedule.scheduleJob("0 11 9 * * ?", async () => {
+    let res = await fetch("http://api.2xb.cn/zaob")
+    let json = await res.json()
+    console.log(json.imageUrl);
 
-  console.log(task());
+    return json.imageUrl
+  })
+}
 
-
-
+task()

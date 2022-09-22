@@ -2,12 +2,27 @@
 import fetch from "node-fetch";
 import path from "path";
 import fs from "fs"
-
-let res = await fetch("https://baidu.com")
-
-console.log(res.text());
+import { fileURLToPath } from "url";
+import { config } from "../../config/config.js";
+// import { schedule } from "node-schedule";
+import api from "../constants/api.js";
 
 console.log(path.sep);
+let __dirname = fileURLToPath(import.meta.url)
+__dirname = path.dirname(__dirname)
+
+
+// schedule.scheduleJob("0 30 10 * * ?", async () => {
+
+//     let url = `http://apis.juhe.cn/simpleWeather/query?city=南京&key=${config.weatherKey}`
+//     console.log(url);
+
+//     let res = await fetch(url)
+//     console.log(res);
+//     let json = await res.json()
+//     console.log(json);
+//     console.log(json.result);
+// })
 
 console.log(process.cwd());
 /* 
