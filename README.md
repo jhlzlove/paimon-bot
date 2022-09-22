@@ -4,10 +4,14 @@
 
 
 ```bash
-src/test：测试文件
-src：源 js 文件
-config：配置文件
-resources：资源文件
+|-- config          # 配置
+|-- docs            # 文档
+|-- node_modules    # 依赖
+|-- resources       # 资源目录
+|-- src             # 源代码
+    |-- constants
+    |-- task
+    |-- test
 ```
 
 ## 配置
