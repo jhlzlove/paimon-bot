@@ -6,7 +6,6 @@
 ```bash
 |-- config          # 配置
 |-- docs            # 文档
-|-- node_modules    # 依赖
 |-- resources       # 资源目录
 |-- src             # 源代码
     |-- constants
@@ -29,5 +28,9 @@ npm i -g pnpm
 # 安装依赖
 pnpm i -S
 # 运行程序
-pnpm run
+pnpm start
 ```
+
+## 最后
+
+如果有对 js 熟悉的大佬对此项目感兴趣，请您多多指点，浪子感激不尽，感激不尽~

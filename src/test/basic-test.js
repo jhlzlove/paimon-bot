@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { config } from "../../config/config.js";
 // import { schedule } from "node-schedule";
 import api from "../constants/api.js";
+import { weatherPrediction } from "../task/schedule.js";
 
 console.log(path.sep);
 let __dirname = fileURLToPath(import.meta.url)
@@ -25,6 +26,8 @@ __dirname = path.dirname(__dirname)
 // })
 
 console.log(process.cwd());
+let res = await weatherPrediction("郑州")
+console.log(res);
 /* 
 值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、空（Null）、未定义（Undefined）、Symbol。
 

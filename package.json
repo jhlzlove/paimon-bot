@@ -6,10 +6,11 @@
   "description": "Genshin QQ channel Bot",
   "type": "module",
   "scripts": {
-    "run": "node ./bot.js"
+    "start": "node ./bot.js"
   },
   "engines": {
-    "node": ">= v16"
+    "node": ">= v16",
+    "pnpm": ">= 6"
   },
   "dependencies": {
     "dayjs": "^1.11.5",
