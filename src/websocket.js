@@ -33,7 +33,7 @@ export async function listener() {
                 })
             return
         } else {
-            await client.messageApi.postMessage(msg.channel_id, {
+            client.messageApi.postMessage(msg.channel_id, {
                 content: "Go to study! day day up"
             })
         }
