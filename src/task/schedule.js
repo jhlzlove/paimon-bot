@@ -42,7 +42,7 @@ export async function getNewsImg() {
  */
 export async function weatherPrediction(city = "郑州") {
     if (!config.weatherKey) {
-        console.log(`聚合天气的 key 为空`);
+        logger.error(`聚合天气的 key 为空`);
         return
     }
 
@@ -51,11 +51,13 @@ export async function weatherPrediction(city = "郑州") {
     let json = await res.json()
     let result = json.result
 
-    let finalResult = `城市：${result.city}\n
-                        天气：${result.realtime.info}\n
-                        温度：${result.realtime.temperature}\n
-                        湿度：${result.realtime.humidity}\n
-                        风力：${result.realtime.direct} ${result.realtime.power}\n
-                        空气质量：${result.realtime.aqi}\n`
+    // 使用模板语法格式太丑了，但是写起来比较简单，就这个了，想改可以改了
+    let finalResult = `城市：${result.city}
+天气：${result.realtime.info}
+温度：${result.realtime.temperature}
+湿度：${result.realtime.humidity}
+风力：${result.realtime.direct} ${result.realtime.power}
+空气质量：${result.realtime.aqi}`
+
     return finalResult
 }

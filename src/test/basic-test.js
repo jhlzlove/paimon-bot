@@ -7,12 +7,14 @@ import { config } from "../../config/config.js";
 // import { schedule } from "node-schedule";
 import api from "../constants/api.js";
 import { weatherPrediction } from "../task/schedule.js";
+import Log from '../log.js';
 
 console.log(path.sep);
 let __dirname = fileURLToPath(import.meta.url)
 __dirname = path.dirname(__dirname)
 
-
+Log.setLog()
+logger.debug("诗酒趁年华")
 // schedule.scheduleJob("0 30 10 * * ?", async () => {
 
 //     let url = `http://apis.juhe.cn/simpleWeather/query?city=南京&key=${config.weatherKey}`
