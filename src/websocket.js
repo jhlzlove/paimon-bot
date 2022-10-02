@@ -1,7 +1,6 @@
 import { client, ws } from "./client.js"
 import schedule from "node-schedule";
-import { getNewsImg, weatherPrediction } from "./task/schedule.js";
-import fs from "fs"
+import { postWeather } from "./task/search.js";
 
 export async function listener() {
     /**
@@ -38,12 +37,19 @@ export async function listener() {
             })
         }
 
+        // 定时任务
         schedule.scheduleJob("0 0 8 * * ?", async () => {
-            let weather = await weatherPrediction("南京")
+            let weather = await postWeather("南京")
             await client.messageApi.postMessage("9444867", {
                 content: weather
             })
         })
+
+        // 1	全体成员
+        // 2	管理员
+        // 4	群主/创建者
+        // 5	子频道管理员
+        // 身分组 ID
 
         console.log('私域机器人全部消息 事件接收 :', data);
     });

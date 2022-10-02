@@ -6,8 +6,10 @@ let config = {
         intents: [], // ['PUBLIC_GUILD_MESSAGES'], 空数组开启所有消息的监听
         sandbox: false, // 沙箱支持（即测试环境开放Api），可选，默认false. v2.7.0+
     },
-    // 聚合天气 key：https://www.juhe.cn/ 官网申请，也可以用其它的 API
-    weatherKey: '',
+
+    // #################### 申请 key ########################
+    // https://wx.jdcloud.com/api/0_0/1
+    JD_API_KEY: ""
   };
 
 export {config}
