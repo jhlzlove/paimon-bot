@@ -90,3 +90,26 @@ export async function postPhone(phone) {
     streamPipeline(downloadPath.body, createWriteStream(filePath))
     return filePath
 }
+
+/**
+ * 网易云热评
+ */
+export async function postNeteaseHotReview() {
+    let res = await fetch(api.API_NETEASE_HOT_REVIEW)
+    return (await res.text()).replace("<p>", "").replace("</p>", "")
+}
+
+/**
+ * Hitokoto 一言
+ */
+export async function postHitokoto() {
+    let res = await fetch(api.API_HITOKOTO)
+    let json = await res.json()
+    let temeplate
+    if (json.from_who) {
+        temeplate = "「"+ json.hitokoto + "」\n          ——『" + json.from + "』" + json.from_who
+    } else {
+        temeplate = "「"+ json.hitokoto + "」\n          ——『" + json.from + "』" 
+    }
+    return temeplate
+}
