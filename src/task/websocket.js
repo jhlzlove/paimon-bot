@@ -52,6 +52,15 @@ export async function listener() {
                     })
                 })
         }
+        
+        if (msg.content.includes("天气")) {
+            postWeather(msg.content.replace("天气", ""))
+                .then((res) => {
+                    client.messageApi.postMessage("9444867", {
+                        content: res
+                    })
+                })
+        }
 
 
         // 定时任务
