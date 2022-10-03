@@ -53,18 +53,6 @@ export async function listener() {
                 })
         }
         
-        if (msg.content.includes("天气")) {
-            let city = msg.content.replace("天气", "")
-            postWeather(city)
-                .then((res) => {
-                    client.messageApi.postMessage("9444867", {
-                        content: res
-                    })
-                })
-                .catch((err) => {
-                    console.error("请求失败", err);
-                })
-        }
 
 
         // 定时任务
