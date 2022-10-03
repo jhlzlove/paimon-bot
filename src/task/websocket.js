@@ -1,6 +1,6 @@
-import { client, ws } from "./client.js"
+import { client, ws } from "../login/client.js"
 import schedule from "node-schedule";
-import { postWeather } from "./task/search.js";
+import { postHitokoto, postNeteaseHotReview, postWeather } from "./search.js";
 
 export async function listener() {
     /**
@@ -16,8 +16,9 @@ export async function listener() {
     ws.on('GUILD_MESSAGES', data => {
 
         let msg = data.msg
+
         // 撤掉信息
-        if (msg.cotent && msg.content.includes("lsp")) {
+        if (msg.content && msg.content.includes("lsp")) {
             /**
              * @params1 channelID 子频道id
              * @params2 messageID 消息id
@@ -27,21 +28,44 @@ export async function listener() {
             client.messageApi.deleteMessage(msg.channel_id, msg.id, false)
                 .then((res) => {
                     console.log(`<${msg.author.username}> 的违规消息：“${msg.content}” 已被撤回`);
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     console.log(err);
                 })
             return
-        } else {
-            client.messageApi.postMessage(msg.channel_id, {
-                content: "Go to study! day day up"
-            })
         }
+
+        if (msg.content.includes("网易云热评")) {
+            postNeteaseHotReview()
+                .then((res) => {
+                    client.messageApi.postMessage("9444867", {
+                        content: res
+                    })
+                })
+        }
+
+        if (msg.content.includes("一言")) {
+            postHitokoto()
+                .then((res) => {
+                    client.messageApi.postMessage("9444867", {
+                        content: res
+                    })
+                })
+        }
+
 
         // 定时任务
         schedule.scheduleJob("0 0 8 * * ?", async () => {
             let weather = await postWeather("南京")
             await client.messageApi.postMessage("9444867", {
                 content: weather
+            })
+        })
+
+        schedule.scheduleJob("0 0 7 * * ?", async () => {
+            let hitokoto = await postHitokoto()
+            await client.messageApi.postMessage("9444867", {
+                content: hitokoto
             })
         })
 

@@ -1,4 +1,4 @@
-import { config } from '../config/config.js';
+import { config } from '../../config/config.js';
 import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
 
 // create client ws

@@ -11,6 +11,7 @@
  import dayjs from "dayjs"
  import constants from "../constants/constants.js"
  import api from "../constants/api.js"
+import { config } from "../../config/config.js"
 
 /**
  * 天气预报
@@ -19,7 +20,11 @@
  */
 export async function postWeather(city) {
     if (!city) {
-        logger.error("获取天气信息的城市为空")
+        console.error("获取天气信息的城市为空")
+        return
+    }
+    if (!config.jd_api_key) {
+        console.error("jd_api_key 未配置")
         return
     }
     let url = api.API_WEATHER + city
@@ -27,7 +32,7 @@ export async function postWeather(city) {
     let json = await res.json()
 
     let result = json.result.result
-    let temeplate = "城市: " + result.city +
+    let template = "城市: " + result.city +
                     "\n状态: " + result.weather + 
                     "\n最高温度: " + result.temphigh + "°C" +
                     "\n最低温度: " + result.templow + "°C" +
@@ -38,14 +43,14 @@ export async function postWeather(city) {
                     "\n最近更新: " + result.updatetime +
                     "\npm2.5: " + result.aqi.pm2_5 +
                     "\n空气质量: " + result.aqi.quality +
-                    "\n说明: " + result.aqi.aqiinfo.affect +
+                    "\n说明: " + result.aqi.aqiinfo.affect + "。\n"
                     result.index[0].iname + ": " + result.index[0].ivalue + "\n" + 
                     result.index[1].iname + ": " + result.index[1].ivalue + "\n" + 
                     result.index[2].iname + ": " + result.index[2].ivalue + "\n" + 
                     result.index[3].iname + ": " + result.index[3].ivalue + "\n" + 
                     result.index[4].iname + ": " + result.index[4].ivalue + "\n" + 
                     result.index[5].iname + ": " + result.index[5].ivalue
-    return temeplate
+    return template
 }
 
 /**
@@ -55,17 +60,21 @@ export async function postWeather(city) {
  */
 export async function postPhone(phone) {
     if (!phone) {
-        logger.error("手机号为空！！！")
+        console.error("手机号为空！！！")
+        return
+    }
+    if (!config.jd_api_key) {
+        console.error("jd_api_key 未配置")
         return
     }
     let url = api.API_PHONE + phone
     let res = await fetch(url)
     let json = await res.json()
-    let temeplate = "查询结果：\n手机号: " + json.result.result.shouji +
+    let template = "查询结果：\n手机号: " + json.result.result.shouji +
                 "\n归属地: " + json.result.result.province + json.result.result.city + 
                 "\n运营商: " + json.result.result.company + 
                 "\n区号: " + json.result.result.areacode
-    return temeplate
+    return template
 }
 
 /**
@@ -105,11 +114,11 @@ export async function postNeteaseHotReview() {
 export async function postHitokoto() {
     let res = await fetch(api.API_HITOKOTO)
     let json = await res.json()
-    let temeplate
+    let template
     if (json.from_who) {
-        temeplate = "「"+ json.hitokoto + "」\n          ——『" + json.from + "』" + json.from_who
+        template = "「"+ json.hitokoto + "」\n          ——『" + json.from + "』" + json.from_who
     } else {
-        temeplate = "「"+ json.hitokoto + "」\n          ——『" + json.from + "』" 
+        template = "「"+ json.hitokoto + "」\n          ——『" + json.from + "』" 
     }
-    return temeplate
+    return template
 }

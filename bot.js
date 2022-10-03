@@ -1,9 +1,7 @@
 // ESModule | TypeScript
-import log from './src/log.js';
-import { load } from './src/login.js';
-import { listener } from './src/websocket.js';
+import { load } from './src/login/login.js';
+import { listener } from './src/task/websocket.js';
 
-log.setLog()
 
 load()
 

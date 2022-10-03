@@ -13,8 +13,12 @@ export default {
 
     // ##################### https://wx.jdcloud.com/api/0_0/1 #######################
     // 天气查询 API
-    API_WEATHER: `https://way.jd.com/jisuapi/weather?appkey=${config.JD_API_KEY}&city=`,
+    API_WEATHER: `https://way.jd.com/jisuapi/weather?appkey=${config.jd_api_key}&city=`,
     // 收集归属地 API
-    API_PHONE: `https://way.jd.com/jisuapi/query4?appkey=${config.JD_API_KEY}&shouji=`,
+    API_PHONE: `https://way.jd.com/jisuapi/query4?appkey=${config.jd_api_key}&shouji=`,
+
+    // ################ https://api.yonyoucloud.com/apilink/#/api ##################
+    
+    
     
 }
