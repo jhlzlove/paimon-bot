@@ -14,14 +14,13 @@ export default function setLog () {
     /** 调整error日志等级 */
     // log4js.levels.levels[5].level = Number.MAX_VALUE
     // log4js.levels.levels.sort((a, b) => a.level - b.level)
-  
     log4js.configure({
       appenders: {
         console: {
           type: 'console',
           layout: {
             type: 'pattern',
-            pattern: '%[[YzBot][%d{hh:mm:ss.SSS}][%4.4p]%] %m'
+            pattern: '%[[paimon][%d{hh:mm:ss.SSS}][%4.4p]%] %m'
           }
         },
         command: {
