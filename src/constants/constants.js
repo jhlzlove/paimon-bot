@@ -3,5 +3,5 @@
  */
 export default {
     // 新闻图片保存路径
-    NEWS_SAVE_PATH: "../resources/images/news",
+    NEWS_SAVE_PATH: "./resources/images/news",
 }
