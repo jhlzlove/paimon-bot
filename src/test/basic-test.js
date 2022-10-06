@@ -5,9 +5,31 @@ import fs from "fs"
 import { fileURLToPath } from "url";
 import api from "../constants/api.js";
 import YAML from 'yaml';
+import translate from "../task/translate.js";
 
 console.log(path.sep);
 
+let s1 = "hskfjdjsbj23诗酒趁年华"
+let s2 = "Ajka29rhueh83 "
+
+let s1Res = s1.match("[a-z]")
+
+for (const s of s1Res) {
+    let index = 0
+    console.log(s[index]);
+    index++
+}
+
+let s2Res = s2.matchAll("[a-z]+\/g|[0-9]+\/g")
+
+for (const s of s2Res) {
+    let index = 0
+    console.log(s[index]);
+    index++
+}
+
+// let trans = await translate.postTranslateZhtoEn(r[1])
+// console.log(trans);
 
 /* 
 值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、空（Null）、未定义（Undefined）、Symbol。

@@ -19,6 +19,9 @@ export default {
 
     // ################ https://api.yonyoucloud.com/apilink/#/api ##################
     
+
+    // ################################## 百度翻译 ##############################
+    API_TRANSLATE_BAIDU: `https://fanyi-api.baidu.com/api/trans/vip/translate`
     
     
 }

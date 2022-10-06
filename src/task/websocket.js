@@ -1,6 +1,7 @@
 import { client, ws } from "../login/client.js"
 import schedule from "node-schedule";
 import { postHitokoto, postNeteaseHotReview, postWeather } from "./search.js";
+import translate from "./translate.js";
 
 export async function listener() {
     /**
@@ -47,6 +48,17 @@ export async function listener() {
         if (msg.content.includes("一言")) {
             postHitokoto()
                 .then((res) => {
+                    client.messageApi.postMessage("9444867", {
+                        content: res
+                    })
+                })
+        }
+
+        // 翻译
+        if (msg.content && msg.content.includes("翻译")) {
+            let target = msg.content.split(' ')
+            translate.postTranslateZhtoEn(target[1])
+                .then(res => {
                     client.messageApi.postMessage("9444867", {
                         content: res
                     })
