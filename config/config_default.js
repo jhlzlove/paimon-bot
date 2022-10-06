@@ -9,7 +9,11 @@ let config = {
 
     // #################### 申请 key ########################
     // https://wx.jdcloud.com/api/0_0/1
-    JD_API_KEY: ""
+    jd_api_key: "",
+
+    // ########################## 百度翻译 ###########################
+    baidu_trans_appid: '',
+    baidu_trans_secretkey: '',
   };
 
 export {config}
