@@ -1,5 +1,8 @@
-// appid: 20220130001071339
-// secretkey: Zp_pGQHkvpdLBRR8xXNC
+/**
+ * @author jhlz
+ * @description: 百度翻译
+ * @date: 2022-10-06 15:08:39
+ */
 
 import { config } from "../../config/config.js";
 import api from "../constants/api.js";
