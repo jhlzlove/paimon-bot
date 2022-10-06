@@ -1,5 +1,6 @@
 # js
 config/config.js
+config/config.yml
 
 # json
 *-lock.json
