@@ -4,4 +4,5 @@
 export default {
     // 新闻图片保存路径
     NEWS_SAVE_PATH: "./resources/images/news",
+    BOT_CONFIG_YAML_PATH: "../../config/config.yml",
 }
