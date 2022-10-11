@@ -1,4 +1,4 @@
-import { client, ws } from "../login/client.js"
+import { client, ws } from "../login/init.js"
 import schedule from "node-schedule";
 import { postHitokoto, postNeteaseHotReview, postWeather } from "./search.js";
 import translate from "./translate.js";

@@ -3,7 +3,7 @@
  * @description: 登录
  * @date: 2022-09-22 11:14:47
  */
-import { client } from './client.js';
+import { client } from './init.js';
 
 // 频道信息
 let guildMap = new Map()

@@ -4,7 +4,7 @@
  * @date: 2022-10-06 15:08:39
  */
 
-import { config } from "../../config/config.js";
+import { config } from "../login/init.js";
 import api from "../constants/api.js";
 import fetch from 'node-fetch';
 import md5 from 'md5';

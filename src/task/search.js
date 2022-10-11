@@ -3,15 +3,15 @@
  * @description: API 查询
  * @date: 2022-10-02 16:56:25
  */
- import fetch from "node-fetch"
- import fs, { createWriteStream } from "fs"
- import path from "path"
- import { pipeline } from "stream"
- import { promisify } from "util"
- import dayjs from "dayjs"
- import constants from "../constants/constants.js"
- import api from "../constants/api.js"
-import { config } from "../../config/config.js"
+import fetch from "node-fetch"
+import fs, { createWriteStream } from "fs"
+import path from "path"
+import { pipeline } from "stream"
+import { promisify } from "util"
+import dayjs from "dayjs"
+import constants from "../constants/constants.js"
+import api from "../constants/api.js"
+import { config } from "../login/init.js"
 
 /**
  * 天气预报
