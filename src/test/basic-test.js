@@ -6,26 +6,33 @@ import { fileURLToPath } from "url";
 import api from "../constants/api.js";
 import YAML from 'yaml';
 import translate from "../task/translate.js";
+import logger from "../log/log.js";
 
 console.log(path.sep);
 
-let s1 = "hskfjdjsbj23诗酒趁年华"
-let s2 = "Ajka29rhueh83 "
+logger.error("sjij")
+/**
+ * 正则表达式测试
+ */
+function regexTest() {
+    let s1 = "hskfjdjsbj23诗酒趁年华";
+    let s2 = "Ajka29rhueh83 ";
 
-let s1Res = s1.match("[a-z]")
+    let s1Res = s1.match("[a-z]");
 
-for (const s of s1Res) {
-    let index = 0
-    console.log(s[index]);
-    index++
-}
+    for (const s of s1Res) {
+        let index = 0;
+        console.log(s[index]);
+        index++;
+    }
 
-let s2Res = s2.matchAll("[a-z]+\/g|[0-9]+\/g")
+    let s2Res = s2.matchAll("[a-z]+\/g|[0-9]+\/g");
 
-for (const s of s2Res) {
-    let index = 0
-    console.log(s[index]);
-    index++
+    for (const s of s2Res) {
+        let index = 0;
+        console.log(s[index]);
+        index++;
+    }
 }
 
 // let trans = await translate.postTranslateZhtoEn(r[1])

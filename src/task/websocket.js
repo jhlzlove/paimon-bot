@@ -48,6 +48,7 @@ export async function listener() {
         if (msg.content.includes("一言")) {
             postHitokoto()
                 .then((res) => {
+                    logger.info(res)
                     client.messageApi.postMessage("9444867", {
                         content: res
                     })

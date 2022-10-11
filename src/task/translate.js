@@ -3,7 +3,6 @@
  * @description: 百度翻译
  * @date: 2022-10-06 15:08:39
  */
-
 import { config } from "../login/init.js";
 import api from "../constants/api.js";
 import fetch from 'node-fetch';
@@ -17,11 +16,11 @@ import md5 from 'md5';
     salt	string	是	随机数	可为字母或数字的字符串
     sign	string	是	签名	appid+q+salt+密钥的MD5值
  */
-class Translate{
+class Translate {
     constructor() {
-        
+
     }
-    
+
     async translate(query) {
         if (query.match("[\u4e00-\u9fa5]")) {
             return this.postTranslateZhtoEn(query)
@@ -65,17 +64,17 @@ class Translate{
         // 生成 sign
         let sign = md5(signStr)
         // request url
-        let url = api.API_TRANSLATE_BAIDU + "?q=" + query + "&from=" + from + "&to=" + to + 
-                    "&appid=" + appid + "&salt=" + salt + "&sign=" + sign
+        let url = api.API_TRANSLATE_BAIDU + "?q=" + query + "&from=" + from + "&to=" + to +
+            "&appid=" + appid + "&salt=" + salt + "&sign=" + sign
 
         // request
         let res = await fetch(url)
         let json = await res.json()
 
-        let result = "原: " + json.trans_result[0].src + 
-                     "\n译: " + json.trans_result[0].dst
+        let result = "原: " + json.trans_result[0].src +
+            "\n译: " + json.trans_result[0].dst
         return result
     }
 }
 
-export default new  Translate()
+export default new Translate()

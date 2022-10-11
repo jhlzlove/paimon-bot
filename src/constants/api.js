@@ -14,14 +14,11 @@ export default {
     // ##################### https://wx.jdcloud.com/api/0_0/1 #######################
     // 天气查询 API
     API_WEATHER: `https://way.jd.com/jisuapi/weather?appkey=${config.jd_api_key}&city=`,
-    // 收集归属地 API
+    // 手机号归属地 API
     API_PHONE: `https://way.jd.com/jisuapi/query4?appkey=${config.jd_api_key}&shouji=`,
-
-    // ################ https://api.yonyoucloud.com/apilink/#/api ##################
-    
 
     // ################################## 百度翻译 ##############################
     API_TRANSLATE_BAIDU: `https://fanyi-api.baidu.com/api/trans/vip/translate`
-    
-    
+
+    // ################ https://api.yonyoucloud.com/apilink/#/api ##################
 }

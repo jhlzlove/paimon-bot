@@ -17,8 +17,8 @@ let memberCount = 0
 export async function load() {
     // 机器人信息
     let user = await client.meApi.me();
-    console.log(`================ ${user.data.username} 上线成功！！！===============`);
-    console.log(`=================== 正在加载信息，请稍后...... ======================`);
+    logger.info(`================ ${user.data.username} 上线成功！！！===============`);
+    logger.info(`=================== 正在加载信息，请稍后...... ======================`);
 
     // 频道信息
     let guild = await client.meApi.meGuilds();
