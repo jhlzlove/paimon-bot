@@ -1,6 +1,7 @@
 import log4js from "log4js"
 import fs from 'fs'
 import chalk from 'chalk'
+import { config } from "../login/init.js"
 
 /**
 * 设置日志样式
@@ -46,7 +47,7 @@ export default function setLog () {
       }
     },
     categories: {
-      default: { appenders: ['console'], level: 'warn' },
+      default: { appenders: ['console'], level: config.logLevel },
       command: { appenders: ['console', 'command'], level: 'warn' },
       error: { appenders: ['console', 'command', 'error'], level: 'error' }
     }

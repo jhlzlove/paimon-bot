@@ -6,11 +6,13 @@ import { fileURLToPath } from "url";
 import api from "../constants/api.js";
 import YAML from 'yaml';
 import translate from "../task/translate.js";
-import logger from "../log/log.js";
+import setLog from "../log/log.js";
 
 console.log(path.sep);
 
-logger.error("sjij")
+setLog()
+
+logger.info("jiodkj")
 /**
  * 正则表达式测试
  */
