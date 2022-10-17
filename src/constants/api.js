@@ -1,4 +1,4 @@
-import { config } from "../../config/config.js";
+import { config } from "../login/init.js";
 
 /**
  * 程序调用的 API 全部放这里

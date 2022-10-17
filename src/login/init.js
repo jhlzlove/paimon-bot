@@ -7,7 +7,9 @@ import setLog from '../log/log.js';
 // parse config
 let configPath = fs.readFileSync(constants.BOT_CONFIG_YAML_PATH, "utf-8")
 let config = YAML.parse(configPath)
+
 setLog()
+
 // create client ws
 const client = createOpenAPI(config.bot);
 const ws = createWebsocket(config.bot);
