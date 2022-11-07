@@ -3,6 +3,7 @@ import schedule from "node-schedule";
 import { postHitokoto, postNeteaseHotReview, postWeather } from "./search.js";
 import translate from "./translate.js";
 
+// 监听信息
 export async function listener() {
     /**
      * online message

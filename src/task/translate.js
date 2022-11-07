@@ -22,7 +22,7 @@ class Translate {
     }
 
     async translate(query) {
-        if (query.match("[\u4e00-\u9fa5]")) {
+        if (query.match("[a-z]")) {
             return this.postTranslateZhtoEn(query)
         } else {
             return this.postTranslateEntoZh(query)
@@ -49,8 +49,10 @@ class Translate {
 
     async postTranslate(query, from, to) {
 
-        const appid = config.baidu_trans_appid
-        const secretkey = config.baidu_trans_secretkey
+        const appid = '20220130001071339'
+        const secretkey = 'Zp_pGQHkvpdLBRR8xXNC'
+        // const appid = config.baidu_trans_appid
+        // const secretkey = config.baidu_trans_secretkey
         if (!appid || !secretkey) {
             console.log(`百度翻译的 appid、secret 未正确配置！`);
             return
@@ -70,7 +72,6 @@ class Translate {
         // request
         let res = await fetch(url)
         let json = await res.json()
-
         let result = "原: " + json.trans_result[0].src +
             "\n译: " + json.trans_result[0].dst
         return result
